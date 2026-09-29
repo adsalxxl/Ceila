@@ -1,0 +1,381 @@
+/* =================================================_
+   1. Design System, Fluid Variables & Relative Colors
+   ================================================= */
+:root {
+  color-scheme: light dark;
+
+  --base-primary: oklch(60% 0.2 340); 
+  
+  --bg-main: light-dark(oklch(97% 0.005 260), oklch(15% 0.01 260));
+  --bg-card: light-dark(oklch(100% 0 0), oklch(20% 0.01 260));
+  --txt-main: light-dark(oklch(15% 0.01 260), oklch(95% 0.005 260));
+  --txt-muted: light-dark(oklch(45% 0.01 260), oklch(70% 0.01 260));
+  
+  --primary: var(--base-primary);
+  --primary-light: light-dark(oklch(92% 0.05 340), oklch(30% 0.08 340));
+  --primary-tint: oklch(from var(--primary) calc(l + 0.15) c h);
+  --border-color: light-dark(oklch(90% 0.005 260), oklch(30% 0.01 260));
+  
+  --shadow-s: 0.25rem 1rem 3rem oklch(0% 0 0 / 0.03);
+  --shadow-m: 0.5rem 1.5rem 4rem oklch(0% 0 0 / 0.06);
+
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --txt-s: clamp(0.75rem, 0.7rem + 0.25vw, 0.85rem);
+  --txt-m: clamp(0.9rem, 0.85rem + 0.3vw, 1.05rem);
+  --txt-l: clamp(1.1rem, 1rem + 0.5vw, 1.25rem);
+  --txt-xl: clamp(1.8rem, 1.4rem + 1.5vw, 2.5rem);
+
+  --space-xs: clamp(0.5rem, 1vw, 0.75rem);
+  --space-s: clamp(0.75rem, 1.5vw, 1rem);
+  --space-m: clamp(1rem, 2vw, 1.5rem);
+  --space-l: clamp(1.5rem, 3vw, 2rem);
+  --space-xl: clamp(2rem, 4vw, 3rem);
+
+  --radius-s: 0.75rem;
+  --radius-m: 1.5rem;
+  --radius-full: 3.125rem;
+  --transition: all 0.3s ease;
+}
+
+/* =================================================_
+   2. Global Resets & Base Styles
+   ================================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-main);
+  color: var(--txt-main);
+  direction: ltr;
+  padding: var(--space-xl) var(--space-m);
+  display: flex;
+  flex-direction: column; /* ترتيب العناصر بشكل عمودي */
+  align-items: center; /* توسيط الحاويات في المنتصف */
+  justify-content: flex-start; /* البدء من الأعلى */
+  gap: var(--space-l); /* مسافة بين الهيدر والمحتوى */
+  min-height: 100vh;
+}
+
+/* =================================================_
+   3. Header Section (Isolated)
+   ================================================= */
+.main-header {
+  container-type: inline-size;
+  container-name: top-header;
+  
+  inline-size: 100%;
+  max-inline-size: 83.5rem; /* نفس أقصى عرض للمتجر */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-m);
+  flex-wrap: wrap;
+
+  .logo-area {
+    inline-size: clamp(4rem, 8vw, 6rem);
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    background: var(--bg-card); /* يتناسب مع شكل المتجر */
+    border-radius: var(--radius-full);
+    padding: 0.625rem 1.25rem;
+    inline-size: min(100%, 21.875rem);
+    border: 0.0625rem solid var(--border-color);
+
+    input {
+      border: none;
+      background: transparent;
+      outline: none;
+      inline-size: 100%;
+      font-size: var(--txt-m);
+      color: var(--txt-main);
+    }
+  }
+
+  .user-profile {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+
+    .icon-btn {
+      background: var(--bg-card);
+      border: 0.0625rem solid var(--border-color);
+      inline-size: 2.5rem;
+      block-size: 2.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+
+      &:hover {
+        background: var(--primary-light);
+        border-color: var(--primary);
+      }
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-weight: 600;
+      font-size: var(--txt-s);
+
+      img {
+        inline-size: 2.375rem;
+        block-size: 2.375rem;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  /* استعلام حاوية لتعديل الهيدر عند صغر عرض الحاوية */
+  @container top-header (max-width: 45rem) {
+    .search-bar {
+      order: 3;
+      inline-size: 100%;
+      margin-block-start: var(--space-xs);
+    }
+  }
+}
+
+/* =================================================_
+   4. Layout & Container Structure (Storefront)
+   ================================================= */
+.storefront-showcase {
+  /* الحاوية الرئيسية للتجاوب الأساسي */
+  container-type: inline-size;
+  container-name: showcase;
+
+  inline-size: 100%;
+  max-inline-size: 83.5rem;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-m);
+  padding: var(--space-l);
+  box-shadow: var(--shadow-m);
+  border: 0.0625rem solid var(--border-color);
+}
+
+/* =================================================_
+   5. Grid System & Components inside Showcase
+   ================================================= */
+.main-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-l);
+
+  /* تحويل الشبكة إلى عمود واحد عندما تصغر الحاوية الرئيسية للمتجر */
+  @container showcase (max-width: 60rem) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hero, .sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
+}
+
+/* تعريف حاوية جديدة لمنطقة الـ Hero للتحكم بالكروت بداخلها */
+.hero {
+  container-type: inline-size;
+  container-name: hero-section;
+}
+
+/* Hero Card with Nesting */
+.hero-card {
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--bg-card) 100%);
+  border: 0.0625rem solid var(--border-color);
+  border-radius: var(--radius-m);
+  padding: var(--space-l);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  gap: var(--space-m);
+
+  .hero-tag {
+    font-size: var(--txt-s);
+    color: var(--primary);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .hero-content {
+    h1 {
+      font-size: var(--txt-xl);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-block: var(--space-s);
+    }
+    p {
+      color: var(--txt-muted);
+      font-size: var(--txt-m);
+      margin-block-end: var(--space-m);
+    }
+  }
+
+  .btn-primary {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    transition: var(--transition);
+
+    &:hover {
+      background-color: var(--primary-tint);
+      transform: translateY(-0.125rem);
+    }
+  }
+
+  .hero-image img {
+    max-inline-size: 16.25rem;
+    inline-size: 100%;
+    border-radius: var(--radius-s);
+    box-shadow: var(--shadow-s);
+  }
+
+  /* استعلام حاوية داخلي للـ Hero Card */
+  @container hero-section (max-width: 40rem) {
+    flex-direction: column-reverse;
+    text-align: center;
+    
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
+
+/* Sub-Cards Grid with Nesting */
+.sub-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-m);
+
+  /* استجابة الكروت الفرعية بناءً على عرض منطقة الـ Hero */
+  @container hero-section (max-width: 35rem) {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 0.0625rem solid var(--border-color);
+    border-radius: var(--radius-s);
+    padding: var(--space-m);
+    box-shadow: var(--shadow-s);
+
+    h4 {
+      font-size: var(--txt-s);
+      margin-block-end: var(--space-xs);
+    }
+
+    .text-muted-sm {
+      color: var(--txt-muted);
+      font-size: var(--txt-s);
+    }
+
+    &.card-highlight {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: var(--primary);
+      color: white;
+
+      h3 {
+        font-size: var(--txt-l);
+      }
+      p {
+        font-size: var(--txt-s);
+        opacity: 0.9;
+      }
+    }
+
+    .badge-new {
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.625rem;
+      font-weight: bold;
+    }
+  }
+}
+
+/* Right Side Cards (Sidebar/Promotions) with Nesting */
+.sidebar {
+  .colors-card, .product-preview-card {
+    background: var(--bg-card);
+    border: 0.0625rem solid var(--border-color);
+    border-radius: var(--radius-s);
+    padding: var(--space-m);
+
+    h3, h4 {
+      font-size: var(--txt-s);
+      font-weight: 600;
+    }
+  }
+
+  .colors-card {
+    .colors-list {
+      display: flex;
+      gap: var(--space-xs);
+      margin-block-start: var(--space-s);
+
+      .color-dot {
+        inline-size: 1.5rem;
+        block-size: 1.5rem;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .product-preview-card {
+    &.product-flex {
+      display: flex;
+      align-items: center;
+      gap: var(--space-m);
+
+      .product-info-flex {
+        flex: 1;
+        h4 {
+          margin-block-end: 0.25rem;
+        }
+      }
+    }
+
+    .product-thumb-sm {
+      inline-size: 5rem;
+      block-size: 5rem;
+      border-radius: var(--radius-s);
+      object-fit: cover;
+    }
+
+    .product-thumb-lg {
+      inline-size: 100%;
+      block-size: 11.25rem;
+      border-radius: var(--radius-s);
+      object-fit: cover;
+      margin-block-end: var(--space-s);
+    }
+  }
+}
