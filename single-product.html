@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solitaire Diamond Ring - Ceila</title>
+  <style>
+    /* =================================================_
+       1. Design System, Fluid Variables & Relative Colors
+       ================================================= */
+    :root {
+      color-scheme: light;
+
+      --base-primary: oklch(60% 0.2 340);
+
+      --bg-main: light-dark(oklch(97% 0.005 260), oklch(15% 0.01 260));
+      --bg-card: light-dark(oklch(100% 0 0), oklch(20% 0.01 260));
+      --txt-main: light-dark(oklch(15% 0.01 260), oklch(95% 0.005 260));
+      --txt-muted: light-dark(oklch(45% 0.01 260), oklch(70% 0.01 260));
+
+      --primary: var(--base-primary);
+      --primary-light: light-dark(oklch(92% 0.05 340), oklch(30% 0.08 340));
+      --primary-tint: oklch(from var(--primary) calc(l + 0.15) c h);
+      --border-color: light-dark(oklch(90% 0.005 260), oklch(30% 0.01 260));
+
+      --shadow-s: 0.25rem 1rem 3rem oklch(0% 0 0 / 0.03);
+      --shadow-m: 0.5rem 1.5rem 4rem oklch(0% 0 0 / 0.06);
+
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --txt-s: clamp(0.75rem, 0.7rem + 0.25vw, 0.85rem);
+      --txt-m: clamp(0.9rem, 0.85rem + 0.3vw, 1.05rem);
+      --txt-l: clamp(1.1rem, 1rem + 0.5vw, 1.25rem);
+      --txt-xl: clamp(1.5rem, 1.2rem + 1.2vw, 2.2rem);
+
+      --space-xs: clamp(0.5rem, 1vw, 0.75rem);
+      --space-s: clamp(0.75rem, 1.5vw, 1rem);
+      --space-m: clamp(1rem, 2vw, 1.5rem);
+      --space-l: clamp(1.5rem, 3vw, 2rem);
+      --space-xl: clamp(2rem, 4vw, 3rem);
+
+      --radius-s: 0.75rem;
+      --radius-m: 1.5rem;
+      --radius-full: 3.125rem;
+      --transition: all 0.3s ease;
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+    }
+
+    /* =================================================_
+       2. Global Resets
+       ================================================= */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--bg-main);
+      color: var(--txt-main);
+      direction: ltr;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-xl);
+      min-height: 100vh;
+      padding: var(--space-l);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .container-wrapper {
+      width: 100%;
+      max-width: 83.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xl);
+    }
+
+    /* =================================================_
+       3. Nav (Header)
+       ================================================= */
+    .main-nav {
+      container-type: inline-size;
+      container-name: top-nav;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-m);
+      flex-wrap: wrap;
+      background: var(--bg-card);
+      padding: var(--space-m) var(--space-l);
+      border-radius: var(--radius-m);
+      box-shadow: var(--shadow-s);
+      border: 0.0625rem solid var(--border-color);
+    }
+
+    .logo-area { inline-size: clamp(4rem, 8vw, 6rem); }
+
+    .search-bar {
+      display: flex;
+      flex-grow: 1;
+      max-width: 30rem;
+      align-items: center;
+      background: var(--bg-main);
+      border-radius: var(--radius-full);
+      padding: 0.625rem 1.25rem;
+      border: 0.0625rem solid var(--border-color);
+
+      input {
+        border: none;
+        background: transparent;
+        outline: none;
+        inline-size: 100%;
+        font-size: var(--txt-m);
+        color: var(--txt-main);
+      }
+    }
+
+    .user-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-s);
+
+      .icon-btn {
+        background: var(--bg-main);
+        border: 0.0625rem solid var(--border-color);
+        inline-size: 2.5rem;
+        block-size: 2.5rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+
+        &:hover {
+          background: var(--primary-light);
+          border-color: var(--primary);
+        }
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+        font-weight: 600;
+        font-size: var(--txt-s);
+
+        img {
+          inline-size: 2.375rem;
+          block-size: 2.375rem;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+    }
+
+    @container top-nav (max-width: 45rem) {
+      .search-bar { order: 3; max-width: 100%; margin-block-start: var(--space-s); }
+    }
+
+    /* =================================================_
+       4. Product Main Details Section
+       ================================================= */
+    .product-section {
+      container-type: inline-size;
+      container-name: product-section;
+    }
+
+    .product-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      background: var(--bg-card);
+      border: 0.0625rem solid var(--border-color);
+      border-radius: var(--radius-m);
+      padding: var(--space-xl);
+      box-shadow: var(--shadow-m);
+
+      @container product-section (max-width: 55rem) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Image Gallery */
+    .product-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-m);
+
+      .main-image-container {
+        width: 100%;
+        aspect-ratio: 1;
+        border-radius: var(--radius-s);
+        overflow: hidden;
+        border: 0.0625rem solid var(--border-color);
+        background: var(--bg-main);
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .thumbnails-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--space-s);
+
+        img {
+          width: 100%;
+          aspect-ratio: 1;
+          object-fit: cover;
+          border-radius: var(--radius-s);
+          cursor: pointer;
+          border: 0.0625rem solid var(--border-color);
+          opacity: 0.7;
+          transition: var(--transition);
+
+          &:hover, &.active {
+            opacity: 1;
+            border-color: var(--primary);
+            transform: translateY(-2px);
+          }
+        }
+      }
+    }
+
+    /* Product Information & Actions */
+    .product-info-area {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-m);
+
+      .breadcrumbs {
+        font-size: var(--txt-s);
+        color: var(--txt-muted);
+        a { color: var(--txt-muted); text-decoration: none; &:hover { color: var(--primary); } }
+      }
+
+      h1 { font-size: var(--txt-xl); font-weight: 700; line-height: 1.2; }
+
+      .price-tag {
+        font-size: var(--txt-l);
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .short-description {
+        font-size: var(--txt-m);
+        color: var(--txt-muted);
+        line-height: 1.6;
+      }
+
+      .options-group {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xs);
+
+        label { font-size: var(--txt-s); font-weight: 600; }
+
+        .size-selectors {
+          display: flex;
+          gap: var(--space-xs);
+
+          button {
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-s);
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--txt-main);
+            transition: var(--transition);
+
+            &.active, &:hover {
+              background: var(--primary);
+              color: white;
+              border-color: var(--primary);
+            }
+          }
+        }
+      }
+
+      /* Actions: Buy Now & Wishlist */
+      .action-buttons {
+        display: flex;
+        gap: var(--space-s);
+        margin-top: var(--space-s);
+
+        .btn-buy-now {
+          flex-grow: 1;
+          background: var(--primary);
+          color: white;
+          border: none;
+          padding: 0.875rem 1.5rem;
+          border-radius: var(--radius-full);
+          font-weight: 600;
+          font-size: var(--txt-m);
+          cursor: pointer;
+          transition: var(--transition);
+
+          &:hover {
+            background: var(--primary-tint);
+            transform: translateY(-2px);
+          }
+        }
+
+        .btn-wishlist {
+          background: var(--bg-main);
+          border: 1px solid var(--border-color);
+          inline-size: 3.25rem;
+          block-size: 3.25rem;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          font-size: 1.25rem;
+          transition: var(--transition);
+
+          &:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            transform: scale(1.05);
+          }
+        }
+      }
+
+      /* Detailed Specs Tabs / Accordion Box */
+      .specs-box {
+        margin-top: var(--space-s);
+        border-top: 1px solid var(--border-color);
+        padding-top: var(--space-m);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-s);
+
+        h3 { font-size: var(--txt-m); font-weight: 600; }
+
+        .specs-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: var(--space-xs);
+          font-size: var(--txt-s);
+
+          .spec-item {
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-main);
+            padding: 0.6rem 0.8rem;
+            border-radius: var(--radius-s);
+            border: 1px solid var(--border-color);
+
+            .label { color: var(--txt-muted); }
+            .value { font-weight: 600; color: var(--txt-main); }
+          }
+        }
+      }
+    }
+
+    /* =================================================_
+       5. You May Also Like Section
+       ================================================= */
+    .related-section {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-m);
+
+      h2 { font-size: var(--txt-l); font-weight: 600; }
+
+      .products-grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+        gap: var(--space-m);
+
+        .product-card {
+          background: var(--bg-card);
+          border: 0.0625rem solid var(--border-color);
+          border-radius: var(--radius-s);
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          transition: var(--transition);
+
+          &:hover { transform: translateY(-4px); box-shadow: var(--shadow-m); }
+          img { aspect-ratio: 1; width: 100%; object-fit: cover; }
+
+          .product-details {
+            padding: var(--space-m);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+            flex-grow: 1;
+            h3 { font-size: var(--txt-m); font-weight: 600; }
+            .price-row {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-top: auto;
+              .price { font-weight: 700; color: var(--primary); }
+              .add-btn {
+                background: var(--bg-main); border: 1px solid var(--border-color); border-radius: var(--radius-full);
+                padding: 0.4rem 1rem; cursor: pointer; transition: var(--transition); font-weight: 600; color: var(--txt-main);
+                &:hover { background: var(--primary); color: white; border-color: var(--primary); }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    /* =================================================_
+       6. Footer
+       ================================================= */
+    .main-footer {
+      width: 100%;
+      background: var(--bg-card);
+      border: 0.0625rem solid var(--border-color);
+      border-radius: var(--radius-m);
+      padding: var(--space-l);
+      text-align: center;
+      margin-top: auto;
+      p { font-size: var(--txt-s); color: var(--txt-muted); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container-wrapper">
+
+    <!-- 1. Nav -->
+    <nav class="main-nav">
+      <div class="logo-area">
+        <svg width="100%" height="100%" viewBox="0 0 92.62664 32.836357" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(-82.549999,-163.77709)">
+            <g transform="translate(36.2704,132.92004)">
+              <path d="m 65.881255,58.104602 c -1.539505,0.84112 -2.72774,2.22532 -4.58611,2.38913 -6.138934,0.54121 -8.586427,-7.022198 -7.909196,-11.914126 0.314031,-2.268401 1.102954,-7.440081 4.380062,-7.157077 4.604238,0.397612 -2.098953,8.879833 4.587736,8.867072 3.016639,-0.0058 4.100944,-3.235569 2.972751,-5.59027 -2.449603,-5.112651 -10.202628,-5.097815 -14.261639,-2.191253 -4.669693,3.134377 -5.847331,9.18112 -3.857689,14.185414 3.254916,8.186673 14.978701,9.866796 18.674085,1.41111 m 10.274281,-7.8422 11.919797,5e-6 c 0,-1.667856 0.159272,-3.660262 -0.559493,-5.216891 -2.429869,-5.262365 -9.297667,-5.917953 -13.873205,-2.544031 -2.941079,2.168701 -4.316392,4.985244 -4.525133,8.188195 -0.917574,14.079403 14.66107,16.980952 18.957829,7.452057 -6.473421,5.677639 -12.64258,-0.35094 -11.919795,-7.879335 z m 54.636824,10.479969 c 0.26266,0.454942 1.0564,2.950438 1.88063,2.950438 h 6.23325 c -0.99376,-1.74113 -1.25298,-4.176109 -1.4111,-6.195833 v -7.690717 c 0.6344,-11.965594 -11.1878,-9.51719 -13.75833,-7.966632 -2.27198,1.370472 -4.25094,3.473287 -2.79066,6.869929 1.21344,2.822471 4.74648,1.604712 5.71741,-1.025132 0.83734,-2.267994 -1.67826,-4.210013 0.64458,-5.793056 2.22997,-1.51974 8.8227,0.116272 8.8227,3.32878 0,2.2116 -3.31602,3.497848 -4.9857,4.16146 -4.67149,1.856626 -13.32877,3.650897 -12.27182,10.302423 1.01021,6.357368 8.87334,3.930707 11.91904,1.05834 M 91.986809,42.173377 c 0.647374,0.647374 1.738215,1.601638 1.738215,2.47228 0,1.150885 0.02567,6.83633 0.02567,10.227721 0,2.492506 -0.02567,6.915423 -0.02567,6.915423 l -1.385438,1.904017 h 9.877774 l -1.76389,-1.904017 v -7.62098 c 0,-4.305493 0.0309,-13.194724 0.0309,-13.194724 -2.426899,1.093198 -7.371534,1.20028 -8.497581,1.20028 m -15.831271,7.095391 c 0.01957,-1.970724 0.277382,-8.166499 3.817502,-7.517754 1.999656,0.366447 2.824838,5.978769 1.57035,7.517758 m 49.60175,1.59582 v 4.586109 c 0,0.93155 0.066,1.89485 -0.0384,2.82196 -0.23786,2.11374 -2.6838,3.42288 -4.31774,1.65201 -3.20934,-3.47829 0.30622,-9.060079 4.35611,-9.060079 z M 105.28486,32.057327 c 0.90566,0.522882 1.73822,1.601636 1.73822,2.47228 0,3.550887 0.0257,16.952373 0.0257,20.343764 0,2.492506 -0.0257,6.915423 -0.0257,6.915423 l -1.38544,1.904017 h 9.87777 l -1.76389,-1.904017 v -7.62098 c 0,-4.305493 0.0309,-23.310767 0.0309,-23.310767 -2.4269,1.093198 -7.37153,1.20028 -8.49758,1.20028" style="fill:var(--primary);stroke:none;" />
+              <ellipse style="fill:var(--primary);" cy="-35.288448" cx="96.770981" rx="4.1780615" ry="3.9022329" transform="scale(1,-1)" />
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="search-bar">
+        <input type="text" placeholder="Search products..." aria-label="Search">
+      </div>
+
+      <div class="user-actions">
+        <button class="icon-btn" id="theme-toggle" aria-label="Toggle Theme">🌙</button>
+        <button class="icon-btn" aria-label="Favorites">❤️</button>
+        <button class="icon-btn" aria-label="Cart">🛒</button>
+        <div class="user-info">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80" alt="Sarah Davis">
+        </div>
+      </div>
+    </nav>
+
+    <!-- 2. Product Detail Section -->
+    <section class="product-section" aria-label="Product Details">
+      <div class="product-layout">
+
+        <!-- معرض الصور (3) -->
+        <div class="product-gallery">
+          <div class="main-image-container">
+            <img id="mainImage" src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=600" alt="Solitaire Diamond Ring">
+          </div>
+          <div class="thumbnails-row">
+            <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=200" class="active" onclick="changeImage(this)" alt="Thumbnail 1">
+            <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=200" onclick="changeImage(this)" alt="Thumbnail 2">
+            <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=200" onclick="changeImage(this)" alt="Thumbnail 3">
+            <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=200" onclick="changeImage(this)" alt="Thumbnail 4">
+          </div>
+        </div>
+
+        <!-- تفاصيل المنتج وأزرار الشراء والمفضلة (1, 2, 4) -->
+        <div class="product-info-area">
+          <div class="breadcrumbs">
+            <a href="#">Home</a> / <a href="#">Rings</a> / <span>Solitaire Diamond</span>
+          </div>
+
+          <!-- (1) اسم المنتج -->
+          <h1>Solitaire Diamond Ring</h1>
+
+          <div class="price-tag">$890.00</div>
+
+          <p class="short-description">Brilliant cut diamond set in a minimalist platinum band. A timeless classic.</p>
+
+          <div class="options-group">
+            <label>Select Size (US)</label>
+            <div class="size-selectors">
+              <button class="active">5</button>
+              <button>6</button>
+              <button>7</button>
+              <button>8</button>
+            </div>
+          </div>
+
+          <!-- (4) زر الشراء وزر المفضلة -->
+          <div class="action-buttons">
+            <button class="btn-buy-now">Buy Now</button>
+            <button class="btn-wishlist" aria-label="Add to Wishlist" title="Add to Wishlist">❤️</button>
+          </div>
+
+          <!-- (2) بيانات تفصيلية عن المنتج -->
+          <div class="specs-box">
+            <h3>Detailed Specifications</h3>
+            <div class="specs-grid">
+              <div class="spec-item">
+                <span class="label">Material</span>
+                <span class="value">18K White Gold</span>
+              </div>
+              <div class="spec-item">
+                <span class="label">Gemstone</span>
+                <span class="value">Certified Diamond</span>
+              </div>
+              <div class="spec-item">
+                <span class="label">Weight</span>
+                <span class="value">3.2 grams</span>
+              </div>
+              <div class="spec-item">
+                <span class="label">Dimensions</span>
+                <span class="value">Band width: 2mm</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. قسم You May Also Like -->
+    <section class="related-section" aria-label="You May Also Like">
+      <h2>You May Also Like</h2>
+      <div class="products-grid-container">
+        <article class="product-card">
+          <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=400" alt="Gold Chain">
+          <div class="product-details">
+            <h3>Gold Chain Bracelet</h3>
+            <div class="price-row">
+              <span class="price">$145.00</span>
+              <button class="add-btn">Add to Cart</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <img src="https://images.unsplash.com/photo-1569388330338-53ecda03dfa1?q=80&w=400" alt="Pearl Earrings">
+          <div class="product-details">
+            <h3>Pearl Drop Earrings</h3>
+            <div class="price-row">
+              <span class="price">$220.00</span>
+              <button class="add-btn">Add to Cart</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <img src="https://images.unsplash.com/photo-1602173574767-37ac01994b2a?q=80&w=400" alt="Eternity Ring">
+          <div class="product-details">
+            <h3>Eternity Ring</h3>
+            <div class="price-row">
+              <span class="price">$350.00</span>
+              <button class="add-btn">Add to Cart</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <img src="https://images.unsplash.com/photo-1599643477877-530eb83abc8e?q=80&w=400" alt="Silver Choker">
+          <div class="product-details">
+            <h3>Silver Choker</h3>
+            <div class="price-row">
+              <span class="price">$115.00</span>
+              <button class="add-btn">Add to Cart</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 6. Footer -->
+    <footer class="main-footer">
+      <p>&copy; 2026 Ceila Elegant Accessories. All Rights Reserved.</p>
+    </footer>
+
+  </div>
+
+  <script>
+    // تغيير الصورة الرئيسية عند الضغط على المصغرات
+    function changeImage(element) {
+      document.getElementById('mainImage').src = element.src;
+      document.querySelectorAll('.thumbnails-row img').forEach(img => img.classList.remove('active'));
+      element.classList.add('active');
+    }
+
+    // تبديل المظهر (Dark / Light)
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const htmlElement = document.documentElement;
+
+    const savedTheme = localStorage.getItem('ceila-theme') || 'light';
+    if (savedTheme === 'dark') {
+      htmlElement.setAttribute('data-theme', 'dark');
+      themeToggleBtn.textContent = '☀️';
+    } else {
+      htmlElement.setAttribute('data-theme', 'light');
+      themeToggleBtn.textContent = '🌙';
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      if (htmlElement.getAttribute('data-theme') === 'dark') {
+        htmlElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('ceila-theme', 'light');
+        themeToggleBtn.textContent = '🌙';
+      } else {
+        htmlElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('ceila-theme', 'dark');
+        themeToggleBtn.textContent = '☀️';
+      }
+    });
+  </script>
+</body>
+</html>
