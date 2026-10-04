@@ -458,12 +458,111 @@ a {text-decoration: none;}
       transition: background-color 0.3s ease, border-color 0.3s ease;
       p { font-size: var(--txt-s); color: var(--txt-muted); }
     }
+    .announcement-bar {
+    width: 100%;
+    background: var(--bg-card);
+    border: 0.0625rem solid var(--border-color);
+    border-radius: var(--radius-s);
+    padding: var(--space-xs) var(--space-m);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s);
+    box-shadow: var(--shadow-s);
+    position: relative;
+    font-size: var(--txt-s);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .announcement-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    gap: var(--space-xs);
+    flex-wrap: wrap;
+    text-align: center;
+
+    .badge {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      padding: 0.15rem 0.6rem;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    p {
+      color: var(--txt-main);
+      font-weight: 500;
+      
+      span {
+        color: var(--txt-muted);
+        margin-left: 0.25rem;
+        
+        strong {
+          color: var(--primary);
+          font-weight: 700;
+        }
+      }
+    }
+  }
+
+  .announcement-close {
+    background: transparent;
+    border: none;
+    color: var(--txt-muted);
+    font-size: 1.25rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0.2rem;
+    transition: var(--transition);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+
+    &:hover {
+      background: var(--bg-main);
+      color: var(--txt-main);
+    }
+  }
   </style>
 </head>
 <body>
 
   <div class="container-wrapper">
+<aside class="announcement-bar" id="announcementBar" role="region" aria-label="Announcement">
+  <div class="announcement-content">
+    <span class="badge">New</span>
+    <p>Enjoy Free Express Shipping on orders over $150! <span>Use code: <strong>CEILA10</strong></span></p>
+  </div>
+  <button class="announcement-close" id="announcementClose" aria-label="Close Announcement">&times;</button>
+</aside>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const closeBtn = document.getElementById('announcementClose');
+    const bar = document.getElementById('announcementBar');
+    
+    if (closeBtn && bar) {
+      closeBtn.addEventListener('click', function() {
+        // إضافة تأثير اختفاء تدريجي ناعم
+        bar.style.transition = 'all 0.3s ease';
+        bar.style.opacity = '0';
+        bar.style.transform = 'translateY(-10px)';
+        
+        setTimeout(function() {
+          bar.style.display = 'none';
+        }, 300); // إخفاء العنصر تماماً بعد انتهاء التأثير
+      });
+    }
+  });
+</script>
     <!-- 1. القسم الأول: Nav -->
     <nav class="main-nav">
       <a href="#" class="logo-area">
