@@ -131,10 +131,20 @@
         justify-content: center;
         cursor: pointer;
         transition: var(--transition);
+        color: var(--txt-main);
+
+        svg {
+          width: 1.25rem;
+          height: 1.25rem;
+          fill: none;
+          stroke: currentColor;
+          stroke-width: 2;
+        }
 
         &:hover {
           background: var(--primary-light);
           border-color: var(--primary);
+          color: var(--primary);
         }
       }
 
@@ -238,13 +248,7 @@
         a { color: var(--txt-muted); text-decoration: none; &:hover { color: var(--primary); } }
       }
 
-      h1 { font-size: var(--txt-xl); font-weight: 700; line-height: 1.2; }
-
-      .price-tag {
-        font-size: var(--txt-l);
-        font-weight: 700;
-        color: var(--primary);
-      }
+      h1 { font-size: var(--txt-xl); font-weight: 700; line-height: 1.2; margin-bottom: -0.5rem; }
 
       .short-description {
         font-size: var(--txt-m);
@@ -257,11 +261,15 @@
         flex-direction: column;
         gap: var(--space-xs);
 
-        label { font-size: var(--txt-s); font-weight: 600; }
+        label { font-size: var(--txt-s); font-weight: 600; display: flex; align-items: center; gap: 0.5rem; }
+        
+        .selected-value { color: var(--txt-muted); font-weight: 400; }
 
-        .size-selectors {
+        /* Style for Size selectors */
+        .custom-selectors {
           display: flex;
           gap: var(--space-xs);
+          flex-wrap: wrap;
 
           button {
             background: var(--bg-main);
@@ -280,25 +288,102 @@
             }
           }
         }
+
+        /* Style for Color Swatches */
+        .color-swatches {
+          display: flex;
+          gap: var(--space-s);
+          
+          button {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            border: 2px solid var(--bg-card);
+            box-shadow: 0 0 0 1px var(--border-color);
+            cursor: pointer;
+            transition: var(--transition);
+            
+            &.active, &:hover {
+              box-shadow: 0 0 0 2px var(--primary);
+            }
+          }
+        }
       }
 
-      /* Actions: Buy Now & Wishlist */
+      /* Price Section (Moved below options) */
+      .price-section {
+        display: flex;
+        align-items: flex-end;
+        gap: var(--space-s);
+        margin-top: var(--space-xs);
+        padding-top: var(--space-s);
+        border-top: 1px solid var(--border-color);
+      }
+
+      .price-tag {
+        font-size: var(--txt-xl);
+        font-weight: 700;
+        color: var(--primary);
+        line-height: 1;
+      }
+
+      /* Actions: Quantity, Buy Now & Wishlist */
       .action-buttons {
         display: flex;
         gap: var(--space-s);
-        margin-top: var(--space-s);
+        margin-top: var(--space-xs);
+        flex-wrap: wrap;
+        
+        .quantity-selector {
+          display: flex;
+          align-items: center;
+          background: var(--bg-main);
+          border: 1px solid var(--border-color);
+          border-radius: var(--radius-full);
+          height: 3.25rem;
+          overflow: hidden;
+
+          .qty-btn {
+            background: transparent;
+            border: none;
+            color: var(--txt-main);
+            font-size: var(--txt-l);
+            width: 2.5rem;
+            height: 100%;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:hover {
+              background: var(--primary-light);
+              color: var(--primary);
+            }
+          }
+
+          .qty-value {
+            width: 2.5rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: var(--txt-m);
+            color: var(--txt-main);
+          }
+        }
 
         .btn-buy-now {
           flex-grow: 1;
           background: var(--primary);
           color: white;
           border: none;
-          padding: 0.875rem 1.5rem;
+          padding: 0 1.5rem;
+          height: 3.25rem;
           border-radius: var(--radius-full);
           font-weight: 600;
           font-size: var(--txt-m);
           cursor: pointer;
           transition: var(--transition);
+          min-width: 8rem;
 
           &:hover {
             background: var(--primary-tint);
@@ -316,18 +401,76 @@
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          font-size: 1.25rem;
+          color: var(--txt-muted);
           transition: var(--transition);
 
-          &:hover {
+          svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            transition: var(--transition);
+          }
+
+          &:hover, &.active {
             border-color: var(--primary);
             background: var(--primary-light);
+            color: var(--primary);
             transform: scale(1.05);
+          }
+
+          &:hover svg, &.active svg {
+            fill: var(--primary);
           }
         }
       }
 
-      /* Detailed Specs Tabs / Accordion Box */
+      /* Key Features Box */
+      .features-box {
+        margin-top: var(--space-s);
+        border-top: 1px solid var(--border-color);
+        padding-top: var(--space-m);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-s);
+
+        h3 { font-size: var(--txt-m); font-weight: 600; }
+
+        .features-list {
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-xs);
+
+          li {
+            font-size: var(--txt-s);
+            color: var(--txt-main);
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-s);
+            line-height: 1.6;
+
+            &::before {
+              content: "✓";
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              inline-size: 1.25rem;
+              block-size: 1.25rem;
+              background: var(--primary-light);
+              color: var(--primary);
+              border-radius: 50%;
+              font-size: 0.75rem;
+              font-weight: 700;
+              flex-shrink: 0;
+              margin-top: 0.125rem;
+            }
+          }
+        }
+      }
+      
+      /* Detailed Specs */
       .specs-box {
         margin-top: var(--space-s);
         border-top: 1px solid var(--border-color);
@@ -382,9 +525,54 @@
           display: flex;
           flex-direction: column;
           transition: var(--transition);
+          position: relative; /* Added for absolute positioning inside */
 
           &:hover { transform: translateY(-4px); box-shadow: var(--shadow-m); }
-          img { aspect-ratio: 1; width: 100%; object-fit: cover; }
+          
+          .card-image-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            
+            img { width: 100%; height: 100%; object-fit: cover; }
+            
+            /* The new Wishlist Button inside Cards */
+            .card-wishlist-btn {
+              position: absolute;
+              top: var(--space-s);
+              right: var(--space-s);
+              background: var(--bg-card);
+              border: 1px solid var(--border-color);
+              width: 2.25rem;
+              height: 2.25rem;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+              color: var(--txt-muted);
+              transition: var(--transition);
+              box-shadow: var(--shadow-s);
+              z-index: 10;
+
+              svg {
+                width: 1.1rem;
+                height: 1.1rem;
+                fill: none;
+                stroke: currentColor;
+                stroke-width: 2;
+                transition: var(--transition);
+              }
+
+              &:hover { border-color: var(--primary); }
+
+              /* Active State Fill/Stroke */
+              &.active, &:hover {
+                color: var(--primary);
+                svg { fill: var(--primary); }
+              }
+            }
+          }
 
           .product-details {
             padding: var(--space-m);
@@ -447,9 +635,15 @@
       </div>
 
       <div class="user-actions">
-        <button class="icon-btn" id="theme-toggle" aria-label="Toggle Theme">🌙</button>
-        <button class="icon-btn" aria-label="Favorites">❤️</button>
-        <button class="icon-btn" aria-label="Cart">🛒</button>
+        <button class="icon-btn" id="theme-toggle" aria-label="Toggle Theme">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+        <button class="icon-btn" aria-label="Favorites">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        </button>
+        <button class="icon-btn" aria-label="Cart">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        </button>
         <div class="user-info">
           <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80" alt="Sarah Davis">
         </div>
@@ -460,7 +654,7 @@
     <section class="product-section" aria-label="Product Details">
       <div class="product-layout">
 
-        <!-- معرض الصور (3) -->
+        <!-- Image Gallery (Left Side) -->
         <div class="product-gallery">
           <div class="main-image-container">
             <img id="mainImage" src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=600" alt="Solitaire Diamond Ring">
@@ -473,42 +667,78 @@
           </div>
         </div>
 
-        <!-- تفاصيل المنتج وأزرار الشراء والمفضلة (1, 2, 4) -->
+        <!-- Product Info (Right Side) -->
         <div class="product-info-area">
           <div class="breadcrumbs">
             <a href="#">Home</a> / <a href="#">Rings</a> / <span>Solitaire Diamond</span>
           </div>
 
-          <!-- (1) اسم المنتج -->
           <h1>Solitaire Diamond Ring</h1>
+          
+          <p class="short-description">Brilliant cut diamond set in a minimalist premium band. A timeless classic designed for eternal beauty.</p>
 
-          <div class="price-tag">$890.00</div>
-
-          <p class="short-description">Brilliant cut diamond set in a minimalist platinum band. A timeless classic.</p>
-
+          <!-- Color Variations (Swatches) Before Price -->
           <div class="options-group">
-            <label>Select Size (US)</label>
-            <div class="size-selectors">
-              <button class="active">5</button>
-              <button>6</button>
-              <button>7</button>
-              <button>8</button>
+            <label>Color <span class="selected-value" id="color-label">White Gold</span></label>
+            <div class="color-swatches color-group">
+              <button class="active" style="background-color: #f3f4f6;" data-name="White Gold" onclick="toggleColor(this)" aria-label="White Gold"></button>
+              <button style="background-color: #fde68a;" data-name="Yellow Gold" onclick="toggleColor(this)" aria-label="Yellow Gold"></button>
+              <button style="background-color: #fbcfe8;" data-name="Rose Gold" onclick="toggleColor(this)" aria-label="Rose Gold"></button>
             </div>
           </div>
 
-          <!-- (4) زر الشراء وزر المفضلة -->
-          <div class="action-buttons">
-            <button class="btn-buy-now">Buy Now</button>
-            <button class="btn-wishlist" aria-label="Add to Wishlist" title="Add to Wishlist">❤️</button>
+          <!-- Size Variations Before Price -->
+          <div class="options-group">
+            <label>Select Size (US)</label>
+            <div class="custom-selectors size-group">
+              <button class="active" onclick="toggleOption(this, 'size-group')">5</button>
+              <button onclick="toggleOption(this, 'size-group')">6</button>
+              <button onclick="toggleOption(this, 'size-group')">7</button>
+              <button onclick="toggleOption(this, 'size-group')">8</button>
+            </div>
           </div>
 
-          <!-- (2) بيانات تفصيلية عن المنتج -->
+          <!-- Price Tag -->
+          <div class="price-section">
+            <div class="price-tag">$890.00</div>
+          </div>
+
+          <!-- Action Buttons (Qty, Buy Now, Wishlist) -->
+          <div class="action-buttons">
+            <!-- Quantity Selector -->
+            <div class="quantity-selector">
+              <button class="qty-btn" id="btn-decrease" aria-label="Decrease Quantity">−</button>
+              <span class="qty-value" id="qty-value">1</span>
+              <button class="qty-btn" id="btn-increase" aria-label="Increase Quantity">+</button>
+            </div>
+            
+            <button class="btn-buy-now">Buy Now</button>
+            
+            <button class="btn-wishlist" onclick="this.classList.toggle('active')" aria-label="Add to Wishlist" title="Add to Wishlist">
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Key Features Section -->
+          <div class="features-box">
+            <h3>Key Features</h3>
+            <ul class="features-list">
+              <li>Handcrafted by master artisans with precision and care</li>
+              <li>Ethically sourced and certified conflict-free diamond</li>
+              <li>Hypoallergenic and tarnish-resistant premium band</li>
+              <li>Includes a luxury gift box and lifetime warranty</li>
+            </ul>
+          </div>
+
+          <!-- Detailed Specs -->
           <div class="specs-box">
             <h3>Detailed Specifications</h3>
             <div class="specs-grid">
               <div class="spec-item">
                 <span class="label">Material</span>
-                <span class="value">18K White Gold</span>
+                <span class="value" id="spec-material">18K White Gold</span>
               </div>
               <div class="spec-item">
                 <span class="label">Gemstone</span>
@@ -530,50 +760,84 @@
       </div>
     </section>
 
-    <!-- 5. قسم You May Also Like -->
+    <!-- 5. You May Also Like Section -->
     <section class="related-section" aria-label="You May Also Like">
       <h2>You May Also Like</h2>
       <div class="products-grid-container">
+        
+        <!-- Card 1 -->
         <article class="product-card">
-          <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=400" alt="Gold Chain">
+          <div class="card-image-wrapper">
+            <!-- Wishlist Button Absolute Positioned -->
+            <button class="card-wishlist-btn" onclick="this.classList.toggle('active')" aria-label="Add to Wishlist">
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+            <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=400" alt="Gold Chain">
+          </div>
           <div class="product-details">
             <h3>Gold Chain Bracelet</h3>
             <div class="price-row">
               <span class="price">$145.00</span>
-              <button class="add-btn">Add to Cart</button>
+              <button class="add-btn">Add</button>
             </div>
           </div>
         </article>
 
+        <!-- Card 2 -->
         <article class="product-card">
-          <img src="https://images.unsplash.com/photo-1569388330338-53ecda03dfa1?q=80&w=400" alt="Pearl Earrings">
+          <div class="card-image-wrapper">
+            <button class="card-wishlist-btn" onclick="this.classList.toggle('active')" aria-label="Add to Wishlist">
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+            <img src="https://images.unsplash.com/photo-1569388330338-53ecda03dfa1?q=80&w=400" alt="Pearl Earrings">
+          </div>
           <div class="product-details">
             <h3>Pearl Drop Earrings</h3>
             <div class="price-row">
               <span class="price">$220.00</span>
-              <button class="add-btn">Add to Cart</button>
+              <button class="add-btn">Add</button>
             </div>
           </div>
         </article>
 
+        <!-- Card 3 -->
         <article class="product-card">
-          <img src="https://images.unsplash.com/photo-1602173574767-37ac01994b2a?q=80&w=400" alt="Eternity Ring">
+          <div class="card-image-wrapper">
+            <button class="card-wishlist-btn active" onclick="this.classList.toggle('active')" aria-label="Add to Wishlist">
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+            <img src="https://images.unsplash.com/photo-1602173574767-37ac01994b2a?q=80&w=400" alt="Eternity Ring">
+          </div>
           <div class="product-details">
             <h3>Eternity Ring</h3>
             <div class="price-row">
               <span class="price">$350.00</span>
-              <button class="add-btn">Add to Cart</button>
+              <button class="add-btn">Add</button>
             </div>
           </div>
         </article>
 
+        <!-- Card 4 -->
         <article class="product-card">
-          <img src="https://images.unsplash.com/photo-1599643477877-530eb83abc8e?q=80&w=400" alt="Silver Choker">
+          <div class="card-image-wrapper">
+            <button class="card-wishlist-btn" onclick="this.classList.toggle('active')" aria-label="Add to Wishlist">
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+            <img src="https://images.unsplash.com/photo-1599643477877-530eb83abc8e?q=80&w=400" alt="Silver Choker">
+          </div>
           <div class="product-details">
             <h3>Silver Choker</h3>
             <div class="price-row">
               <span class="price">$115.00</span>
-              <button class="add-btn">Add to Cart</button>
+              <button class="add-btn">Add</button>
             </div>
           </div>
         </article>
@@ -588,35 +852,95 @@
   </div>
 
   <script>
-    // تغيير الصورة الرئيسية عند الضغط على المصغرات
+    // ----------------------------------------------------
+    // 1. Gallery Logic
+    // ----------------------------------------------------
     function changeImage(element) {
       document.getElementById('mainImage').src = element.src;
       document.querySelectorAll('.thumbnails-row img').forEach(img => img.classList.remove('active'));
       element.classList.add('active');
     }
 
-    // تبديل المظهر (Dark / Light)
+    // ----------------------------------------------------
+    // 2. Options Selection Logic (Size)
+    // ----------------------------------------------------
+    function toggleOption(button, groupClass) {
+      const groupButtons = document.querySelectorAll(`.${groupClass} button`);
+      groupButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+    }
+
+    // ----------------------------------------------------
+    // 3. Color Swatches Logic
+    // ----------------------------------------------------
+    function toggleColor(button) {
+      const groupButtons = document.querySelectorAll('.color-group button');
+      groupButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      
+      const colorName = button.getAttribute('data-name');
+      
+      // Update label text
+      const colorLabel = document.getElementById('color-label');
+      if (colorLabel) {
+        colorLabel.textContent = colorName;
+      }
+
+      // Update detailed specifications
+      const specMaterial = document.getElementById('spec-material');
+      if (specMaterial) {
+        specMaterial.textContent = '18K ' + colorName;
+      }
+    }
+
+    // ----------------------------------------------------
+    // 4. Quantity Counter Logic
+    // ----------------------------------------------------
+    const btnDecrease = document.getElementById('btn-decrease');
+    const btnIncrease = document.getElementById('btn-increase');
+    const qtyValueDisplay = document.getElementById('qty-value');
+    let currentQuantity = 1;
+
+    btnDecrease.addEventListener('click', () => {
+      if (currentQuantity > 1) {
+        currentQuantity--;
+        qtyValueDisplay.textContent = currentQuantity;
+      }
+    });
+
+    btnIncrease.addEventListener('click', () => {
+      currentQuantity++;
+      qtyValueDisplay.textContent = currentQuantity;
+    });
+
+    // ----------------------------------------------------
+    // 5. Theme Toggle Logic
+    // ----------------------------------------------------
     const themeToggleBtn = document.getElementById('theme-toggle');
     const htmlElement = document.documentElement;
+    
+    // Using SVG icons for moon and sun
+    const moonIcon = '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
+    const sunIcon = '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>';
 
     const savedTheme = localStorage.getItem('ceila-theme') || 'light';
     if (savedTheme === 'dark') {
       htmlElement.setAttribute('data-theme', 'dark');
-      themeToggleBtn.textContent = '☀️';
+      themeToggleBtn.innerHTML = sunIcon;
     } else {
       htmlElement.setAttribute('data-theme', 'light');
-      themeToggleBtn.textContent = '🌙';
+      themeToggleBtn.innerHTML = moonIcon;
     }
 
     themeToggleBtn.addEventListener('click', () => {
       if (htmlElement.getAttribute('data-theme') === 'dark') {
         htmlElement.setAttribute('data-theme', 'light');
         localStorage.setItem('ceila-theme', 'light');
-        themeToggleBtn.textContent = '🌙';
+        themeToggleBtn.innerHTML = moonIcon;
       } else {
         htmlElement.setAttribute('data-theme', 'dark');
         localStorage.setItem('ceila-theme', 'dark');
-        themeToggleBtn.textContent = '☀️';
+        themeToggleBtn.innerHTML = sunIcon;
       }
     });
   </script>

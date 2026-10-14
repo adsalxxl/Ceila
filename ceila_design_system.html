@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ceila Design System Styleguide</title>
+  <style>
+    /* ========================================================= */
+    /* 1. Base Variables (Ceila Design System)
+    /* ========================================================= */
+    :root {
+      color-scheme: light dark;
+
+      /* --- Colors --- */
+      --clr-txt: light-dark(oklch(0.25 0.01 260), oklch(0.95 0.005 260));
+      --clr-txt--muted: light-dark(oklch(from var(--clr-txt) calc(l + 0.15) c h), oklch(from var(--clr-txt) calc(l - 0.1) c h));
+      --clr-bg-base: light-dark(oklch(0.95 0.005 260), oklch(0.15 0.01 260));
+      --clr-surface: oklch(from var(--clr-bg-base) calc(l + 0.05) c h);
+
+      --clr-primary: oklch(54.485% 0.20346 6.754);
+      --clr-primary-hover: oklch(from var(--clr-primary) calc(l + 0.1) c h);
+      --clr-primary-text: oklch(98% 0.01 260);
+
+      --clr-success: oklch(60% 0.16 145);
+      --clr-warning: oklch(75% 0.17 75);
+      --clr-error: oklch(55% 0.18 25);
+      --clr-info: oklch(60% 0.16 260);
+
+      --clr-success-bg: light-dark(oklch(from var(--clr-success) 0.96 0.03 h), oklch(from var(--clr-success) 0.20 0.04 h));
+      --clr-warning-bg: light-dark(oklch(from var(--clr-warning) 0.96 0.03 h), oklch(from var(--clr-warning) 0.20 0.04 h));
+      --clr-error-bg: light-dark(oklch(from var(--clr-error) 0.96 0.03 h), oklch(from var(--clr-error) 0.20 0.04 h));
+      --clr-info-bg: light-dark(oklch(from var(--clr-info) 0.96 0.03 h), oklch(from var(--clr-info) 0.20 0.04 h));
+
+      --clr-success-text: light-dark(oklch(from var(--clr-success) 0.35 c h), oklch(from var(--clr-success) 0.85 c h));
+      --clr-warning-text: light-dark(oklch(from var(--clr-warning) 0.40 c h), oklch(from var(--clr-warning) 0.85 c h));
+      --clr-error-text: light-dark(oklch(from var(--clr-error) 0.35 c h), oklch(from var(--clr-error) 0.85 c h));
+      --clr-info-text: light-dark(oklch(from var(--clr-info) 0.35 c h), oklch(from var(--clr-info) 0.85 c h));
+
+      /* --- Viewport Typography (vw) --- */
+      --txt-xs: clamp(0.75rem, 0.24vw + 0.7rem, 0.875rem);
+      --txt-s:  clamp(0.8125rem, 0.24vw + 0.76rem, 0.9375rem);
+      --txt-m:  clamp(0.9375rem, 0.23vw + 0.88rem, 1.06rem);
+      --txt-l:  clamp(1.0625rem, 0.36vw + 0.98rem, 1.25rem);
+      --txt-xl: clamp(1.2rem, 0.57vw + 1.07rem, 1.5rem);
+      --h6: clamp(1.0625rem, 0.36vw + 0.98rem, 1.25rem);
+      --h5: clamp(1.2rem, 0.57vw + 1.07rem, 1.5rem);
+      --h4: clamp(1.375rem, 0.71vw + 1.21rem, 1.75rem);
+      --h3: clamp(1.5625rem, 1.07vw + 1.32rem, 2.125rem);
+      --h2: clamp(1.75rem, 1.43vw + 1.43rem, 2.5rem);
+      --h1: clamp(2rem, 1.9vw + 1.57rem, 3rem);
+
+      /* --- Container Typography (cqi) --- */
+      --co-txt-xs: clamp(0.75rem, 0.24cqi + 0.7rem, 0.875rem);
+      --co-txt-s:  clamp(0.8125rem, 0.24cqi + 0.76rem, 0.9375rem);
+      --co-txt-m:  clamp(0.9375rem, 0.23cqi + 0.88rem, 1.06rem);
+      --co-txt-l:  clamp(1.0625rem, 0.36cqi + 0.98rem, 1.25rem);
+      --co-txt-xl: clamp(1.2rem, 0.57cqi + 1.07rem, 1.5rem);
+      --co-h6: clamp(1.0625rem, 0.36cqi + 0.98rem, 1.25rem);
+      --co-h5: clamp(1.2rem, 0.57cqi + 1.07rem, 1.5rem);
+      --co-h4: clamp(1.375rem, 0.71cqi + 1.21rem, 1.75rem);
+      --co-h3: clamp(1.5625rem, 1.07cqi + 1.32rem, 2.125rem);
+      --co-h2: clamp(1.75rem, 1.43cqi + 1.43rem, 2.5rem);
+      --co-h1: clamp(2rem, 1.9cqi + 1.57rem, 3rem);
+
+      /* --- Viewport Spacing (vw) --- */
+      --padding-inline-xs: clamp(0.5rem, 0.95vw + 0.29rem, 1rem);
+      --padding-inline-m: clamp(1rem, 1.9vw + 0.57rem, 2rem);
+      --padding-block-s: clamp(2rem, 1.9vw + 1.57rem, 3rem);
+      --padding-block-m: clamp(3rem, 3.81vw + 2.15rem, 5rem);
+      --gap-m: clamp(1.5rem, 1.9vw + 1.07rem, 2.5rem);
+
+      /* --- Container Spacing (cqi) --- */
+      --co-padding-inline-m: clamp(1rem, 0.95cqi + 0.79rem, 1.5rem);
+      --co-padding-block-m: clamp(1rem, 0.95cqi + 0.79rem, 1.5rem);
+      --co-gap-s: clamp(0.5rem, 0.48cqi + 0.39rem, 0.75rem);
+      --co-gap-m: clamp(0.75rem, 0.48cqi + 0.64rem, 1rem);
+      --co-spacing-m: clamp(0.75rem, 0.95cqi + 0.54rem, 1.25rem);
+
+      /* --- Radius System (em) --- */
+      --radius-s: 0.25em;
+      --radius-m: 0.5em;
+      --radius-l: 1em;
+      --radius-pill: 100em;
+    }
+
+    /* ========================================================= */
+    /* 2. Global Resets & Layout
+    /* ========================================================= */
+    body {
+      background-color: var(--clr-bg-base);
+      color: var(--clr-txt);
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: var(--txt-m);
+      margin-block: 0;
+      margin-inline: 0;
+      line-height: 1.6;
+      /* Smooth scrolling for anchor links */
+      scroll-behavior: smooth;
+    }
+
+    h1, h2, h3, h4 { margin-block-start: 0; margin-block-end: 0.5em; line-height: 1.2; }
+    h1 { font-size: var(--h1); }
+    h2 { font-size: var(--h2); }
+    h3 { font-size: var(--h3); }
+    h4 { font-size: var(--h4); }
+
+    .container {
+      max-inline-size: 75rem;
+      margin-inline: auto;
+      padding-inline: var(--padding-inline-m);
+    }
+
+    .section {
+      padding-block: var(--padding-block-m);
+      /* Offset for sticky header so anchor links don't hide under nav */
+      scroll-margin-block-start: 5rem;
+    }
+
+    .grid-layout {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+      gap: var(--gap-m);
+    }
+
+    .flex-group { display: flex; flex-wrap: wrap; gap: var(--gap-m); }
+    .flex-column { display: flex; flex-direction: column; gap: var(--gap-m); }
+
+    /* ========================================================= */
+    /* 3. Navigation Component
+    /* ========================================================= */
+    .main-header {
+      position: sticky;
+      inset-block-start: 0;
+      z-index: 1000;
+      /* Glassmorphism effect using modern color-mix */
+      background-color: color-mix(in oklch, var(--clr-bg-base) 85%, transparent);
+      backdrop-filter: blur(12px);
+      border-block-end: 1px solid var(--clr-surface);
+      padding-block: var(--padding-inline-xs);
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--gap-m);
+    }
+
+    .brand-logo {
+      font-size: var(--h3);
+      font-weight: 800;
+      color: var(--clr-primary);
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .main-nav {
+      /* Pushes nav to the right alongside theme toggle */
+      margin-inline-start: auto;
+    }
+
+    .nav-list {
+      display: flex;
+      gap: 1em;
+      list-style: none;
+      padding-inline: 0;
+      margin-block: 0;
+    }
+
+    .nav-link {
+      color: var(--clr-txt--muted);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+      font-size: var(--co-txt-m);
+    }
+
+    .nav-link:hover, .nav-link:focus-visible {
+      color: var(--clr-primary);
+    }
+
+    @media (max-width: 600px) {
+      .main-nav { display: none; }
+    }
+
+    /* ========================================================= */
+    /* 4. Button Component System
+    /* ========================================================= */
+    .btn {
+      --btn-bg: var(--clr-primary);
+      --btn-bg-hover: var(--clr-primary-hover);
+      --btn-text: var(--clr-primary-text);
+      --btn-border: var(--btn-bg);
+      --btn-padding-inline: 1.5em;
+      --btn-padding-block: 0.75em;
+      --btn-radius: var(--radius-pill);
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5em;
+
+      font-size: var(--co-txt-m);
+      font-weight: 600;
+      line-height: 1.2;
+      text-decoration: none;
+
+      padding-block: var(--btn-padding-block);
+      padding-inline: var(--btn-padding-inline);
+      border-radius: var(--btn-radius);
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+      border: 2px solid var(--btn-border);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      user-select: none;
+    }
+
+    @media (hover: hover) {
+      .btn:hover {
+        background-color: var(--btn-bg-hover);
+        border-color: var(--btn-bg-hover);
+        transform: scale(1.03);
+      }
+    }
+    .btn:active { transform: scale(0.95); }
+    .btn:focus-visible { outline: 2px solid var(--btn-bg); outline-offset: 4px; }
+
+    /* Modifiers */
+    .btn-success {
+      --btn-bg: var(--clr-success);
+      --btn-bg-hover: oklch(from var(--clr-success) calc(l + 0.04) c h);
+    }
+    .btn-warning {
+      --btn-bg: var(--clr-warning);
+      --btn-bg-hover: oklch(from var(--clr-warning) calc(l + 0.04) c h);
+    }
+    .btn-error {
+      --btn-bg: var(--clr-error);
+      --btn-bg-hover: oklch(from var(--clr-error) calc(l + 0.04) c h);
+    }
+
+    .btn-outline {
+      /* Reduced the lightness bump to +0.12 to prevent it from looking pink */
+      --outline-color: light-dark(var(--btn-bg), oklch(from var(--btn-bg) calc(l + 0.12) c h));
+      --btn-text: var(--outline-color);
+      --btn-border: var(--outline-color);
+      --btn-bg-hover: var(--btn-bg);
+      --btn-text-hover: var(--clr-primary-text);
+      background-color: transparent;
+    }
+
+    @media (hover: hover) {
+      .btn.btn-outline:hover {
+        background-color: var(--btn-bg-hover);
+        color: var(--btn-text-hover);
+      }
+    }
+
+    .btn-sm {
+      --btn-padding-inline: 1em;
+      --btn-padding-block: 0.5em;
+      --btn-radius: var(--radius-m);
+    }
+
+    /* ========================================================= */
+    /* 5. Container Components (Alerts & Product Cards)
+    /* ========================================================= */
+    .alert {
+      container-type: inline-size;
+      padding-block: var(--co-padding-block-m);
+      padding-inline: var(--co-padding-inline-m);
+      border-radius: var(--radius-m);
+      font-size: var(--co-txt-m);
+      border-inline-start: 4px solid var(--alert-border-color);
+    }
+    .alert-success { --alert-border-color: var(--clr-success); background-color: var(--clr-success-bg); color: var(--clr-success-text); }
+    .alert-warning { --alert-border-color: var(--clr-warning); background-color: var(--clr-warning-bg); color: var(--clr-warning-text); }
+    .alert-error { --alert-border-color: var(--clr-error); background-color: var(--clr-error-bg); color: var(--clr-error-text); }
+
+    .product-card {
+      container-type: inline-size;
+      background-color: var(--clr-surface);
+      padding-block: var(--co-padding-block-m);
+      padding-inline: var(--co-padding-inline-m);
+      border-radius: var(--radius-l);
+      display: flex;
+      flex-direction: column;
+      gap: var(--co-gap-m);
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    }
+
+    .product-image-placeholder {
+      background-color: var(--clr-bg-base);
+      inline-size: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: var(--radius-m);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--clr-txt--muted);
+    }
+
+    .product-card h4 { font-size: var(--co-h4); margin-block-end: var(--co-spacing-m); }
+    .product-card p { font-size: var(--co-txt-s); color: var(--clr-txt--muted); margin-block: 0; }
+    .product-image-placeholder { background-color: var(--clr-bg-base); inline-size: 100%; aspect-ratio: 4 / 3; border-radius: var(--radius-m); }
+
+    .push-to-end { margin-block-start: auto; }
+    .custom-radius-m { --btn-radius: var(--radius-m); }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Navigation Bar -->
+  <header class="main-header">
+    <div class="container nav-container">
+      <a href="#" class="brand-logo" aria-label="Ceila Home">Ceila.</a>
+
+      <nav class="main-nav" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li><a href="#typography" class="nav-link">Typography</a></li>
+          <li><a href="#buttons" class="nav-link">Buttons</a></li>
+          <li><a href="#alerts" class="nav-link">Alerts</a></li>
+          <li><a href="#cards" class="nav-link">Components</a></li>
+        </ul>
+      </nav>
+
+      <button id="themeToggle" class="btn btn-outline btn-sm" aria-label="Toggle dark mode">
+        Switch Theme
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="container">
+
+    <!-- Header Hero Area -->
+    <header class="section" style="padding-block-start: var(--padding-block-l);">
+      <h1>Design System Overview</h1>
+      <p>A fully fluid, logically-structured, and highly accessible framework.</p>
+    </header>
+
+    <!-- Typography Section -->
+    <section class="section" id="typography" aria-labelledby="typography-heading">
+      <h2 id="typography-heading">1. Viewport Typography</h2>
+      <h3>This is a Heading 3</h3>
+      <h4>This is a Heading 4</h4>
+      <p>This is standard body text (txt-m). Notice how the layout spacing uses logical properties (block-size and padding-block) instead of physical vertical margins. Resize the browser to see fluid scaling.</p>
+    </section>
+
+    <!-- Buttons Section -->
+    <section class="section" id="buttons" aria-labelledby="buttons-heading">
+      <h2 id="buttons-heading">2. High-Contrast Button System</h2>
+      <p style="margin-block-end: var(--gap-m);">Buttons optimized for perfect contrast in both Light and Dark modes.</p>
+
+      <div class="flex-group">
+        <button class="btn">Primary Action</button>
+        <button class="btn btn-outline">Secondary Outline</button>
+        <button class="btn btn-success">Save Changes</button>
+        <button class="btn btn-warning">Low Stock</button>
+        <button class="btn btn-error">Delete Item</button>
+      </div>
+    </section>
+
+    <!-- Alerts Section -->
+    <section class="section" id="alerts" aria-labelledby="alerts-heading">
+      <h2 id="alerts-heading">3. Semantic Alerts (Container Aware)</h2>
+      <div class="flex-column">
+        <div class="alert alert-success" role="alert">
+          <strong>Success:</strong> Payment completed successfully. Your contrasts are perfectly accessible!
+        </div>
+        <div class="alert alert-warning" role="alert">
+          <strong>Warning:</strong> Only 2 items left in stock.
+        </div>
+        <div class="alert alert-error" role="alert">
+          <strong>Error:</strong> We couldn't process your card. Please try a different payment method.
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Cards Section -->
+    <section class="section" id="cards" aria-labelledby="cards-heading">
+      <h2 id="cards-heading">4. Fluid Product Cards</h2>
+      <p style="margin-block-end: var(--gap-m);">
+        These cards use Container Queries (`cqi`). Typography and spacing inside them react exclusively to their own inline-size.
+      </p>
+
+      <div class="grid-layout">
+        <!-- Card 1 -->
+        <article class="product-card" aria-labelledby="product-1">
+          <div class="product-image-placeholder" aria-hidden="true">Image 4:3</div>
+          <div>
+            <h4 id="product-1">Premium Wireless Headphones</h4>
+            <p>Experience industry-leading noise cancellation.</p>
+          </div>
+          <button class="btn custom-radius-m push-to-end" aria-label="Add Premium Wireless Headphones to Cart">Add to Cart</button>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="product-card" aria-labelledby="product-2">
+          <div class="product-image-placeholder" aria-hidden="true">Image 4:3</div>
+          <div>
+            <h4 id="product-2">Ergonomic Desk Chair</h4>
+            <p>Built for long hours of comfortable working with maximum support.</p>
+          </div>
+          <button class="btn btn-outline custom-radius-m push-to-end" aria-label="View Details for Ergonomic Desk Chair">View Details</button>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="product-card" aria-labelledby="product-3">
+          <div class="product-image-placeholder" aria-hidden="true">Image 4:3</div>
+          <div>
+            <h4 id="product-3">Mechanical Keyboard</h4>
+            <p>Tactile switches with customizable RGB lighting and macro keys.</p>
+          </div>
+          <button class="btn custom-radius-m push-to-end" aria-label="Add Mechanical Keyboard to Cart">Add to Cart</button>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Theme Toggle Logic
+    const themeToggleBtn = document.getElementById('themeToggle');
+
+    // Determine the user's system preference for the initial state
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    let currentTheme = prefersDark ? 'dark' : 'light';
+
+    // Set initial state
+    document.documentElement.style.colorScheme = currentTheme;
+
+    // Toggle event listener
+    themeToggleBtn.addEventListener('click', () => {
+      currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.style.colorScheme = currentTheme;
+    });
+  </script>
+</body>
+</html>
